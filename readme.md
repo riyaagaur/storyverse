@@ -1,9 +1,5 @@
 # ⚡ Storyverse — Harry Potter Character Conversations
 
-An AI-powered, chapter-accurate character chatbot system where you can talk to Harry Potter characters — and they only know what they'd know at your exact point in the story.
-
-**[🔮 Live Demo →](https://yourusername.github.io/storyverse)**
-
 ---
 
 ## What This Is
