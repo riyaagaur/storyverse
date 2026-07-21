@@ -1,7 +1,5 @@
 # ⚡ Storyverse — Harry Potter Character Conversations
 
----
-
 ## What This Is
 
 Select a book. Choose how far you've read. Pick a character. You're dropped mid-scene into a conversation where the character's knowledge, personality, and emotional state are scoped precisely to your chapter.
