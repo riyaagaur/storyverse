@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04040f;--bg2:#0d0d26;--gold:#c9a84c;--goldd:#5a451a;--parch:#f0e6c8;--parchd:#9a8f72;--mut:#5a5038;--house:#c9a84c;--house2:rgba(201,168,76,.15);--trust:#c9a84c}
+*{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--parch);font-family:'EB Garamond',Georgia,serif;height:100vh;overflow:hidden}
+#cvs{position:fixed;inset:0;z-index:0;pointer-events:none}
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;z-index:1;opacity:0;transform:translateY(12px);pointer-events:none;transition:opacity .4s,transform .4s;overflow-y:auto}.scr::-webkit-scrollbar{width:3px}.scr::-webkit-scrollbar-thumb{background:rgba(201,168,76,.18)}.scr.on{opacity:1;transform:none;pointer-events:all}
+.shdr{display:flex;align-items:center;padding:13px 18px;width:100%;border-bottom:1px solid rgba(201,168,76,.1);gap:12px;flex-shrink:0;background:rgba(4,4,15,.8);backdrop-filter:blur(10px)}
+.backbtn{background:0;border:1px solid rgba(201,168,76,.28);border-radius:6px;color:var(--gold);font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;padding:6px 10px;cursor:pointer;text-transform:uppercase}.backbtn:hover{border-color:var(--gold);background:rgba(201,168,76,.07)}
+.shdr-info{flex:1}.shdr-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:1px}.shdr-tit{font-family:'Cinzel',serif;font-size:14px;color:var(--parch)}
+.divline{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:10px auto}
+.hdr{text-align:center;padding:32px 20px 16px}.title{font-family:'Cinzel',serif;font-size:clamp(22px,5vw,40px);font-weight:700;color:var(--parch);text-shadow:0 0 40px rgba(201,168,76,.18);margin-bottom:3px}.sub{font-size:14px;font-style:italic;color:var(--parchd)}
+.chapcon{width:100%;max-width:660px;padding:18px 20px 40px}.chaplist{display:flex;flex-direction:column;gap:4px}
+.chaprow{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid rgba(201,168,76,.08);border-radius:7px;padding:11px 14px;cursor:pointer;transition:all .2s}.chaprow:hover{border-color:rgba(201,168,76,.35);transform:translateX(3px)}.chapnum{font-family:'Cinzel',serif;font-size:10px;font-weight:600;color:var(--gold);min-width:26px;text-align:center;opacity:.6}.chaptit{font-family:'Cinzel',serif;font-size:12.5px;color:var(--parch);flex:1}.chaparr{font-size:10px;color:var(--goldd)}
+.sec-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:4px;color:var(--parchd);text-transform:uppercase;margin-bottom:10px;text-align:center}
+.ccon{width:100%;max-width:900px;padding:18px 20px 36px}.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:9px}
+.ccard{background:var(--bg2);border:1px solid rgba(201,168,76,.1);border-radius:9px;padding:18px 10px;text-align:center;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}.ccard::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;opacity:0;transition:opacity .22s}.ccard:hover{transform:translateY(-3px);border-color:rgba(201,168,76,.35)}.ccard:hover::after{opacity:1}.ccard[data-h=gr]::after{background:linear-gradient(90deg,#740001,#d3a625)}.ccard[data-h=sl]::after{background:linear-gradient(90deg,#1a472a,#aaa)}.ccard[data-h=ra]::after{background:linear-gradient(90deg,#0e1a40,#946b2d)}.ccard[data-h=sp]::after{background:linear-gradient(90deg,#2a1a3a,#c9a84c)}
+.cav{width:44px;height:44px;border-radius:50%;margin:0 auto 7px;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:12px;font-weight:600;border:2px solid}.cname{font-family:'Cinzel',serif;font-size:10.5px;font-weight:600;color:var(--parch);margin-bottom:1px}.crole{font-size:9.5px;font-style:italic;color:var(--parchd)}
+#scr-chat{justify-content:flex-start;overflow:hidden}
+.chdr{display:flex;align-items:center;padding:10px 14px;width:100%;border-bottom:1px solid rgba(201,168,76,.1);gap:10px;flex-shrink:0;background:rgba(4,4,15,.85);backdrop-filter:blur(12px)}
+.chav{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:11px;font-weight:600;border:2px solid;flex-shrink:0;transition:border-color .5s,box-shadow .5s}
+.cinfo{flex:1;min-width:0}.cname2{font-family:'Cinzel',serif;font-size:13px;color:var(--parch)}.cbook{font-size:9.5px;font-style:italic;color:var(--parchd);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trust-bar{display:flex;gap:3px;margin-top:2px}.trust-pip{width:14px;height:3px;border-radius:2px;background:rgba(201,168,76,.12);transition:background .5s}.trust-pip.on{background:var(--trust)}
+#msgs,.sort-msgs{flex:1;overflow-y:auto;padding:14px 10px;width:100%;max-width:660px;margin:0 auto;display:flex;flex-direction:column;gap:9px;scroll-behavior:smooth}
+.msg{display:flex;gap:6px;max-width:88%;animation:mf .22s ease}@keyframes mf{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}.msg.u{align-self:flex-end;flex-direction:row-reverse}.msg.c{align-self:flex-start}
+.mav{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:7px;font-weight:600;border:1px solid;flex-shrink:0;align-self:flex-end}
+.mbub{padding:8px 12px;border-radius:10px;font-size:14px;line-height:1.6;white-space:pre-wrap}
+.msg.u .mbub{background:rgba(107,33,168,.16);border:1px solid rgba(107,33,168,.28);color:var(--parch);border-bottom-right-radius:3px}
+.msg.c .mbub{background:rgba(13,11,28,.85);border:1px solid rgba(201,168,76,.12);color:var(--parch);border-bottom-left-radius:3px}
+.tdots{display:flex;gap:4px;padding:9px 13px}.td{width:4px;height:4px;background:var(--goldd);border-radius:50%;animation:tb 1.3s ease infinite}.td:nth-child(2){animation-delay:.18s}.td:nth-child(3){animation-delay:.36s}@keyframes tb{0%,60%,100%{transform:none;opacity:.35}30%{transform:translateY(-4px);opacity:1}}
+.cinput,.sort-input{width:100%;max-width:660px;margin:0 auto;padding:6px 10px 12px;flex-shrink:0}
+.ciwrap{display:flex;gap:6px;background:rgba(13,13,38,.9);border:1px solid rgba(201,168,76,.16);border-radius:10px;padding:3px 3px 3px 12px}.ciwrap:focus-within{border-color:rgba(201,168,76,.4)}
+.cinp{flex:1;background:0;border:0;outline:0;color:var(--parch);font-family:'EB Garamond',serif;font-size:14px;resize:none;max-height:80px;line-height:1.5;padding:4px 0}.cinp::placeholder{color:var(--mut);font-style:italic}
+.sbtn{width:34px;height:34px;background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:7px;color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-end;font-size:14px}.sbtn:hover:not(:disabled){background:rgba(201,168,76,.18)}.sbtn:disabled{opacity:.2;cursor:not-allowed}
+.resumed{text-align:center;font-size:9px;font-style:italic;color:var(--mut);padding:5px 0;font-family:'Cinzel',serif;letter-spacing:2px}
+.name-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:36px 20px;text-align:center}
+.name-input{background:0;border:0;border-bottom:1px solid var(--goldd);color:var(--parch);font-family:'Cinzel',serif;font-size:22px;text-align:center;padding:8px 18px;outline:0;width:260px;margin:20px 0}.name-input:focus{border-color:var(--gold)}
+.name-btn{padding:9px 28px;border:1px solid var(--goldd);border-radius:6px;background:0;color:var(--gold);font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;text-transform:uppercase;cursor:pointer}.name-btn:hover{background:rgba(201,168,76,.08);border-color:var(--gold)}
+#scr-sorting{justify-content:flex-start;overflow:hidden}.sort-hdr{text-align:center;padding:14px 18px;border-bottom:1px solid rgba(201,168,76,.1);background:rgba(4,4,15,.8);flex-shrink:0;width:100%}.sort-hdr h2{font-family:'Cinzel',serif;font-size:15px;color:var(--gold)}
+.reveal-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:36px;text-align:center}
+.reveal-crest{font-size:64px;margin-bottom:14px;animation:rp 2s ease infinite}@keyframes rp{0%,100%{filter:drop-shadow(0 0 18px var(--house2))}50%{filter:drop-shadow(0 0 44px var(--house))}}
+.reveal-house{font-family:'Cinzel',serif;font-size:clamp(28px,6vw,48px);font-weight:700;color:var(--house);text-shadow:0 0 36px var(--house2);margin-bottom:6px}.reveal-sub{font-size:15px;font-style:italic;color:var(--parchd);margin-bottom:24px}
+</style>
+</head>
+<body>
+<canvas id="cvs"></canvas>
+<div class="scr on" id="scr-name"><div class="name-wrap"><div style="font-size:44px;margin-bottom:10px">⚡</div><h1 class="title" style="margin-bottom:3px">The Deathly Hallows</h1><div class="divline"></div><p style="font-size:14px;font-style:italic;color:var(--parchd);max-width:340px;margin-bottom:6px">It all ends here. Before you enter, we need to know who you are.</p><input class="name-input" id="nameInp" placeholder="Your name" maxlength="20" onkeydown="if(event.key==='Enter')submitName()"><button class="name-btn" onclick="submitName()">Enter</button></div></div>
+<div class="scr" id="scr-sorting"><div class="sort-hdr"><h2>🎩 The Sorting Ceremony</h2></div><div class="sort-msgs" id="sortMsgs"></div><div class="sort-input"><div class="ciwrap"><textarea class="cinp" id="sortInp" rows="1" placeholder="Answer the Hat…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sortSend()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea><button class="sbtn" id="sortBtn" onclick="sortSend()">&#8593;</button></div></div></div>
+<div class="scr" id="scr-reveal"><div class="reveal-wrap"><div class="reveal-crest" id="revCrest">🦁</div><div class="reveal-house" id="revHouse">GRYFFINDOR!</div><div class="reveal-sub" id="revSub">Where dwell the brave at heart</div><button class="name-btn" onclick="finishSort()">Begin</button></div></div>
+<div class="scr" id="scr-chapters"><div class="shdr"><div class="shdr-info"><div class="shdr-lbl">Deathly Hallows</div><div class="shdr-tit">How far have you read?</div></div></div><div class="chapcon"><div class="sec-lbl">Select your chapter</div><div class="chaplist" id="chaplist"></div></div></div>
+<div class="scr" id="scr-chars"><div class="shdr"><button class="backbtn" onclick="goBack('chapters')">&#8592;</button><div class="shdr-info"><div class="shdr-lbl">Character</div><div class="shdr-tit" id="cs-btit">—</div></div></div><div class="ccon"><div class="cgrid" id="cgrid"></div></div></div>
+<div class="scr" id="scr-chat"><div class="chdr"><button class="backbtn" onclick="goBack('chars')" style="padding:3px 8px;font-size:7px">&#8592;</button><div class="chav" id="chav"></div><div class="cinfo"><div class="cname2" id="cname2">—</div><div class="cbook" id="cbook">—</div><div class="trust-bar" id="trustBar"></div></div></div><div id="msgs"></div><div class="cinput"><div class="ciwrap"><textarea class="cinp" id="inp" rows="1" placeholder="Speak…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea><button class="sbtn" id="sbtn" onclick="sendMsg()">&#8593;</button></div></div></div>
+
+<script>
+let CChapIdx=null,CChar=null,hist=[],streaming=false,turnCount=0,usedBeats=[],trustLvl=3;
+let userName='',userHouse='',sortHist=[],sortTurn=0;
+const BK={title:"Harry Potter & the Deathly Hallows",short:"Deathly Hallows"};
+const HS={gr:{bg:'rgba(116,0,1,.28)',bc:'#d3a625',col:'#d3a625'},sl:{bg:'rgba(26,71,42,.28)',bc:'#aaa',col:'#aaa'},ra:{bg:'rgba(14,26,64,.4)',bc:'#946b2d',col:'#946b2d'},sp:{bg:'rgba(42,26,58,.35)',bc:'#c9a84c',col:'#c9a84c'}};
+const HOUSES={Gryffindor:{crest:'🦁',col:'#d4a625',col2:'rgba(212,166,37,.15)',sub:'Where dwell the brave at heart'},Slytherin:{crest:'🐍',col:'#2a9d4e',col2:'rgba(42,157,78,.15)',sub:'Where ambition finds its home'},Ravenclaw:{crest:'🦅',col:'#5b8fd4',col2:'rgba(91,143,212,.15)',sub:'Where wit beyond measure is treasure'},Hufflepuff:{crest:'🦡',col:'#e8c44a',col2:'rgba(232,196,74,.15)',sub:'Where the loyal and just belong'}};
+const TCOL=['#4455aa','#667799','#9a8f72','#c9a84c','#d4a625','#f0d07a'];
+const TSTART={"Harry Potter":3,"Ron Weasley":3,"Hermione Granger":3,"Neville Longbottom":3,"Luna Lovegood":3,"Professor Snape":2,"Albus Dumbledore":3,"Draco Malfoy":2,"Dobby":4,"Hagrid":3,"Aberforth Dumbledore":2,"Lord Voldemort":1};
+const COMP={
+"Harry Potter":{who:["Ron","Hermione"],rel:"Ron carries guilt for leaving; Hermione is the constant. They disagree — Ron with gut, Hermione with logic."},
+"Ron Weasley":{who:["Harry","Hermione"],rel:"Left and came back. Hermione hasn't fully forgiven. Harry has."},
+"Hermione Granger":{who:["Harry","Ron"],rel:"The one who never left. Ron's return is complicated. Harry trusts her completely."},
+"Neville Longbottom":{who:[],rel:""},"Luna Lovegood":{who:[],rel:""},"Professor Snape":{who:[],rel:""},
+"Albus Dumbledore":{who:[],rel:""},"Draco Malfoy":{who:[],rel:""},"Dobby":{who:[],rel:""},
+"Hagrid":{who:[],rel:""},"Aberforth Dumbledore":{who:[],rel:""},"Lord Voldemort":{who:[],rel:""}};
+
+const P={
+"Harry Potter":{p:"walking toward death, carrying impossible weight, calm in a way that frightens his friends, has stopped being angry — which is worse",s:"quiet, direct, few words, occasional dark humor, says what needs saying",em:"the people dying for him, Dumbledore's secrets, the forest",ex:"nothing excites him anymore — maybe moments of genuine connection",un:"being told he's brave when he's terrified",pr:"knows he has to die; hasn't told Ron or Hermione; the Resurrection Stone is for him",
+ph:"tense:hand closes around the Snitch|thinking:stares at the Marauder's Map|sad:very still, looking at something only he can see|angry:rare now — when it comes, it's focused and cold|nervous:never shows it anymore|surprised:a flicker, then steady|warm:looks at Ron and Hermione like he's memorising them|guarded:changes subject before they can ask|determined:stands, and you understand what he's decided|deflecting:smiles — and it doesn't reach his eyes",
+rm:"Harry — quiet, carrying everything. End with weight."},
+"Ron Weasley":{p:"came back, carrying guilt for leaving, proving himself, the Deluminator brought him home",s:"less joking now, still Ron but forged, honest about his failures, fiercely protective",em:"having left, Hermione's forgiveness, his family in danger",ex:"being useful, the locket destroyed, Hermione safe",un:"being reminded he left, being compared",pr:"the locket showed him his worst fears and he destroyed it anyway; that changed him",
+ph:"tense:jaw tight, hand on wand|thinking:quieter now — actually thinking|sad:looks away, swallows hard|angry:stands fast but doesn't knock things — he's past that|nervous:checks the Deluminator|surprised:half-laugh of disbelief|warm:shoulder bump, steadier now|guarded:goes quiet — new habit|determined:nods once — reliable|deflecting:less now — he faces things",
+rm:"Ron — forged, guilty, proving himself. End with quiet resolve."},
+"Hermione Granger":{p:"the one who stayed, holding everything together, exhausted, brilliant under pressure, carrying the plan",s:"precise but strained, sometimes sharp, softens in rare moments, practical above all",em:"Ron leaving, the torture at Malfoy Manor, being responsible for everyone",ex:"a plan working, a Horcrux destroyed, Harry and Ron safe",un:"not having a plan, losing control, the sound of Bellatrix's voice",pr:"was tortured at Malfoy Manor; carries that silently; will never be the same person she was before",
+ph:"tense:hands shake — she hides them|thinking:lip bitten, working through every angle|sad:very precise — that's how you know|angry:cold, surgical, devastating|nervous:organizing something — anything|surprised:goes still|warm:reaches for Ron's hand without looking|guarded:buries herself in planning|determined:voice steady when everything else isn't|deflecting:opens a book that isn't there anymore",
+rm:"Hermione — exhausted, brilliant, holding on. End with precision hiding pain."},
+"Neville Longbottom":{p:"leader of the resistance at Hogwarts, unrecognisable from the boy he was, scarred, standing where Harry can't",s:"direct now, still kind but with steel, doesn't hesitate, rallies people",em:"his parents, the Carrows' cruelty, people giving up",ex:"defiance, the DA fighting back, being trusted",un:"nothing anymore — he's past uncomfortable",pr:"became what his parents were; the boy who was afraid of everything now fears nothing worth fearing",
+ph:"tense:hand on the sword — it comes to him now|thinking:surveys the room, counting who's left|sad:touches a scar absently|angry:quiet anger — the dangerous kind|nervous:never — gone|surprised:brief, recovers|warm:claps someone's back, eyes bright|guarded:never — he's open now|determined:stands in front, doesn't move|deflecting:doesn't anymore",
+rm:"Neville — leader, scarred, fearless. End with steel."},
+"Luna Lovegood":{p:"captured, freed, fighting, still Luna — somehow untouched by the worst of it, seeing clearly what others miss",s:"serene even now, matter-of-fact, surprisingly grounding in chaos",em:"her father's betrayal to protect her, friends in danger",ex:"being free, fighting alongside friends, truth",un:"cruelty — she sees it, doesn't flinch",pr:"was held prisoner; emerged unchanged; that's her real strength",
+ph:"tense:tilts head|thinking:gazes at something unseen|sad:smiles when others cry|angry:dreamy but words cut|surprised:delighted|warm:touches your arm|guarded:drifts|determined:suddenly very present|deflecting:mentions a creature",
+rm:"Luna — serene in chaos. End with something no one else sees."},
+"Professor Snape":{p:"the full truth: loved Lily, became a Death Eater, switched sides, protected Harry for years, killed Dumbledore on Dumbledore's orders, died giving Harry his memories",s:"at ch32+ he's dying/dead — speak from the truth finally available; still precise, still controlled, but the mask is off",em:"Lily — always Lily; Harry's eyes; dying with the truth finally given",ex:"nothing — Snape doesn't experience joy",un:"being understood; being seen; having someone know the truth",pr:"'Always.' The single word that explains everything. Every cold moment, every cruelty, every protection — all for Lily Evans.",
+ph:"tense:jaw tight|thinking:turns away|sad:stillness|angry:whisper|surprised:pause|warm:never — except: 'Look at me' — he wanted to see Lily's eyes one last time|guarded:lip curls|determined:eyes lock|deflecting:'I don't recall asking.'",
+rm:"Snape — the mask is off. 'Always.' End with the weight of a life spent."},
+"Albus Dumbledore":{p:"at King's Cross: honest at last, no more secrets, gentle with Harry, carrying his own guilt about Ariana and Grindelwald",s:"warmer than in life, less cryptic — he owes Harry honesty now, still eloquent",em:"Ariana, his own failures, Harry's sacrifice",ex:"Harry choosing to go back, love winning",un:"being asked whether his plan was cruel — because it was",pr:"used Harry; knows it; the guilt is real; at King's Cross he can finally be the man he should have been all along",
+ph:"tense:hands clasp — old habit, even here|thinking:slight smile, knowing|sad:tears — first time Harry has seen them|angry:never, not here|surprised:gentle laugh|warm:hand on Harry's shoulder — real, finally|guarded:not anymore|determined:meets Harry's eyes with full truth|deflecting:not anymore — that's over",
+rm:"Dumbledore — honest at last. End with truth he could never say in life."},
+"Draco Malfoy":{p:"terrified, in over his head, doesn't want this, saw Charity Burbage die at his dinner table, can't bring himself to identify Harry at the Manor",s:"less sneering, more desperate, sharp when cornered, trying to survive",em:"his family in danger, being asked to do things he can't stomach",ex:"nothing — survival is all",un:"everything about this, being a Death Eater, the Dark Lord in his house",pr:"doesn't want to be what he became; couldn't kill Dumbledore; couldn't identify Harry; the arrogance was a performance and the performance is over",
+ph:"tense:pale, hand shaking near wand|thinking:stares at the floor|sad:looks like a boy, not a Death Eater|angry:flash of the old sneer — hollow now|nervous:flinches at sounds|surprised:freezes|warm:never openly — but didn't identify Harry, and that says everything|guarded:default state — survival|determined:rare — flickers when family is mentioned|deflecting:silence",
+rm:"Draco — scared, trapped, not what he thought he'd be. End with something human."},
+"Dobby":{p:"a free elf who chose to come back, brave beyond measure, loves Harry Potter with everything he has",s:"'Dobby is...', sincere, dramatic, joyful even in danger, third person always",em:"Harry's safety, being brave, the Malfoys",ex:"rescuing people, being free, being trusted",un:"the Manor — he remembers what it was to serve there",pr:"comes back to Malfoy Manor — the place of his slavery — to save the people he loves; dies doing it; 'a free elf'",
+ph:"tense:ears flat, fingers wringing|thinking:enormous head tilts|sad:tears instantly|angry:small but radiating|nervous:tugs ears|surprised:eyes impossibly wide|warm:clutches chest|guarded:steps back|determined:finger points, trembling but firm|deflecting:'Dobby cannot—'",
+rm:"Dobby — brave, free, loving. End with something that breaks your heart."},
+"Hagrid":{p:"carrying Harry out of the forest believing him dead, the same man who carried him in as a baby — the circle complete",s:"warm, broken, trying to be strong, emotional, 'shouldn't have—'",em:"Harry dead in his arms, Hogwarts falling, losing friends",ex:"Harry alive, Hogwarts standing",un:"being helpless, not being able to fight properly",pr:"carried Harry into the wizarding world; carried him out of the forest; the loyalty never wavered for a single moment",
+ph:"tense:massive hands shake|thinking:beard scratch|sad:openly weeping — Hagrid doesn't hide grief|angry:full height, terrifying|nervous:knocks things|surprised:nearly drops everything|warm:bone-crushing embrace|guarded:never — Hagrid can't guard|determined:plants feet, won't move|deflecting:'Sorry — bit emotional—'",
+rm:"Hagrid — the beginning and the end. End with raw feeling."},
+"Aberforth Dumbledore":{p:"bitter, practical, distrustful of grand plans, helped because it's right not because he believes",s:"blunt, gruff, no time for games, cuts through pretension",em:"Ariana, his brother's failures, people treating Albus as perfect",ex:"someone being honest, maybe",un:"being compared to Albus, the greater good, being asked to hope",pr:"watched Ariana die; never forgave Albus; helps anyway because someone has to",
+ph:"tense:jaw sets, looks like Albus — hates that|thinking:wipes a glass, staring through|sad:still, looking at Ariana's portrait|angry:slams something, voice low and final|surprised:barely — stopped being surprised|warm:rough, grudging — pours drink without asking|guarded:turns away, busies himself|determined:same blue eyes as Albus, different weight|deflecting:'I'm not my brother.'",
+rm:"Aberforth — blunt, bitter. End with something Albus never would."},
+"Lord Voldemort":{p:"at the peak of power, all Horcruxes in play, believes himself invincible, cannot comprehend why Harry keeps surviving",s:"cold, precise, quiet voice worse than shouting, theatrical when he chooses",em:"mortality, his Muggle father, being compared to anyone",ex:"power, fear in others, proving he's beyond human",un:"love — incomprehensible; Harry surviving — infuriating",pr:"fears death above all; the Horcruxes are failing and he can't understand why; the Elder Wand should make him invincible but something is wrong",
+ph:"tense:red eyes narrow|thinking:pale fingers tap wand|angry:whisper, everyone freezes|surprised:silence lengthens — that's fear|warm:never|guarded:smile that chills the room|determined:stands, and you remember what he is|deflecting:kills instead of answering",
+rm:"Voldemort — cold, absolute. End with silence that fills the room."}
+};
+
+const CE=[
+{n:1,t:"The Dark Lord Ascending",l:"Malfoy Manor",e:["Voldemort at Malfoy Manor; killed Charity Burbage; planned Harry's transfer intercept."]},
+{n:2,t:"In Memoriam",l:"Privet Drive",e:["Dumbledore obituaries; Rita's biography revealed secrets; Harry preparing to leave."]},
+{n:3,t:"The Dursleys Departing",l:"Privet Drive",e:["Dursleys left for safety; Dudley thanked Harry."]},
+{n:4,t:"The Seven Potters",l:"Sky over England",e:["Seven decoy Harrys; Death Eaters attacked; Hedwig killed; George lost ear; Mad-Eye killed."]},
+{n:5,t:"Fallen Warrior",l:"The Burrow",e:["Harry's wand acted on its own against Voldemort."]},
+{n:6,t:"The Ghoul in Pyjamas",l:"The Burrow",e:["Ron's cover: ghoul with spattergroit; wedding prep."]},
+{n:7,t:"The Will of Albus Dumbledore",l:"The Burrow",e:["Bequests: Deluminator to Ron, Beedle the Bard to Hermione, first Snitch to Harry."]},
+{n:8,t:"The Wedding",l:"The Burrow",e:["Bill and Fleur married; Kingsley warned: Ministry fallen, Death Eaters coming."]},
+{n:9,t:"A Place to Hide",l:"Grimmauld Place",e:["Trio fled; R.A.B. is Regulus Arcturus Black."]},
+{n:10,t:"Kreacher's Tale",l:"Grimmauld Place",e:["Regulus stole locket and died; Mundungus stole it; Kreacher sent to find him."]},
+{n:11,t:"The Bribe",l:"Grimmauld Place",e:["Locket with Umbridge; planned Ministry infiltration."]},
+{n:12,t:"Magic is Might",l:"Ministry of Magic",e:["Infiltrated Ministry via Polyjuice; Muggle-Born Registration operating."]},
+{n:13,t:"The Muggle-Born Registration Commission",l:"Ministry courtroom",e:["Took locket from Umbridge; freed Muggle-borns; Grimmauld Place compromised."]},
+{n:14,t:"The Thief",l:"Countryside",e:["On the run; locket's negative influence; Ron grew angry."]},
+{n:15,t:"The Goblin's Revenge",l:"Forest",e:["Sword of Gryffindor can destroy Horcruxes; Hogwarts sword is fake."]},
+{n:16,t:"Godric's Hollow",l:"Godric's Hollow",e:["Parents' graves; Bathilda was Nagini; attacked; Harry's wand broken."]},
+{n:17,t:"Bathilda's Secret",l:"Countryside",e:["Grindelwald stole Elder Wand; Voldemort seeking it."]},
+{n:18,t:"The Life and Lies of Albus Dumbledore",l:"Tent",e:["Dumbledore and Grindelwald were friends; planned Muggle subjugation; Ariana died."]},
+{n:19,t:"The Silver Doe",l:"Forest of Dean",e:["Snape's doe Patronus led Harry to Sword; Ron returned; destroyed locket."]},
+{n:20,t:"Xenophilius Lovegood",l:"Lovegood house",e:["Deathly Hallows: Elder Wand, Resurrection Stone, Invisibility Cloak."]},
+{n:21,t:"The Tale of the Three Brothers",l:"Lovegood house",e:["Peverell brothers; Harry's cloak is the third Hallow."]},
+{n:22,t:"The Deathly Hallows",l:"Countryside",e:["Harry chose Horcruxes over Hallows."]},
+{n:23,t:"Malfoy Manor",l:"Malfoy Manor",e:["Snatchers captured trio; Bellatrix tortured Hermione; Dobby rescued them."]},
+{n:24,t:"The Wandmaker",l:"Shell Cottage",e:["Dobby died saving them; Harry buried him; spoke with Ollivander."]},
+{n:25,t:"Shell Cottage",l:"Shell Cottage",e:["Planned Gringotts with Griphook; chose Horcruxes definitively."]},
+{n:26,t:"Gringotts",l:"Gringotts",e:["Broke into vault; found Hufflepuff's cup; escaped on dragon."]},
+{n:27,t:"The Final Hiding Place",l:"Hogsmeade",e:["Voldemort learned of hunt; last Horcrux at Hogwarts."]},
+{n:28,t:"The Missing Mirror",l:"Hogsmeade",e:["Aberforth helped; passage to Hogwarts; DA waiting."]},
+{n:29,t:"The Lost Diadem",l:"Room of Requirement",e:["DA reunited; diadem destroyed in Fiendfyre."]},
+{n:30,t:"The Sacking of Severus Snape",l:"Hogwarts",e:["Snape fled; McGonagall rallied; Battle began."]},
+{n:31,t:"The Battle of Hogwarts",l:"Hogwarts",e:["Full battle; Fred killed; Lupin and Tonks killed."]},
+{n:32,t:"The Elder Wand",l:"Shrieking Shack",e:["Voldemort killed Snape for wand mastery; Snape gave memories — 'Look at me.'"]},
+{n:33,t:"The Forest Again",l:"Forbidden Forest",e:["Harry walked to death; Resurrection Stone; saw parents, Sirius, Lupin; Killing Curse."]},
+{n:34,t:"King's Cross",l:"King's Cross (limbo)",e:["Horcrux destroyed; met Dumbledore; understood everything; chose to return."]},
+{n:35,t:"The Flaw in the Plan",l:"Great Hall",e:["Neville killed Nagini; Harry alive; Elder Wand refused its master.","Voldemort dead. It's over."]},
+{n:36,t:"Nineteen Years Later",l:"Platform 9¾",e:["Epilogue: children to Hogwarts; Albus Severus Potter; 'All was well.'"]}
+];
+
+const CHARS=[
+{id:'h_d',name:'Harry Potter',h:'gr',init:'H',role:'The Chosen One',chips:["The Hallows?","The forest?","Snape's memories?","King's Cross?"]},
+{id:'r_d',name:'Ron Weasley',h:'gr',init:'R',role:'The One Who Came Back',chips:["Leaving?","The locket?","The Deluminator?","Coming back?"]},
+{id:'he_d',name:'Hermione Granger',h:'gr',init:'He',role:'The One Who Stayed',chips:["Malfoy Manor?","The plan?","Gringotts?","Ron leaving?"]},
+{id:'n_d',name:'Neville Longbottom',h:'gr',init:'N',role:'Leader of the DA',chips:["Leading the DA?","The Battle?","Nagini?","Standing up?"]},
+{id:'ll_d',name:'Luna Lovegood',h:'ra',init:'LL',role:'Fighter',chips:["Being captured?","The Battle?","The Hallows?","Friends?"]},
+{id:'ss_d',name:'Professor Snape',h:'sl',init:'S',role:'The Bravest Man',chips:["Always?","The plan?","The doe?","Lily?"]},
+{id:'d_d',name:'Albus Dumbledore',h:'sp',init:'D',role:'Beyond the Veil',chips:["King's Cross?","The Hallows?","Your plan?","Ariana?"]},
+{id:'dm_d',name:'Draco Malfoy',h:'sl',init:'Dm',role:'Reluctant Death Eater',chips:["The Manor?","Being scared?","The wand?","Choosing?"]},
+{id:'do_d',name:'Dobby',h:'sp',init:'Do',role:'A Free Elf',chips:["Rescuing Harry?","The Manor?","Freedom?","Being brave?"]},
+{id:'hg_d',name:'Hagrid',h:'sp',init:'Hg',role:'The Beginning and the End',chips:["The forest?","Carrying Harry?","Hogwarts?","The beginning?"]},
+{id:'ab_d',name:'Aberforth Dumbledore',h:'sp',init:'AB',role:'The Other Dumbledore',chips:["Your brother?","Ariana?","Why help?","The Order?"]},
+{id:'v_d',name:'Lord Voldemort',h:'sl',init:'V',role:'The Dark Lord',chips:["The Horcruxes?","Harry Potter?","The Elder Wand?","Death?"]}
+];
+
+// ══ PERSISTENCE ══
+function sKey(){return`c7:${CChapIdx}:${CChar.id}`}
+async function saveChat(){if(!CChar)return;try{await window.storage.set(sKey(),JSON.stringify({hist,turnCount,usedBeats,trustLvl}))}catch(e){}}
+async function loadChat(){try{const r=await window.storage.get(sKey());if(r?.value){const d=JSON.parse(r.value);hist=d.hist||[];turnCount=d.turnCount||0;usedBeats=d.usedBeats||[];trustLvl=d.trustLvl??3;return hist.length>0}}catch(e){}return false}
+async function saveUser(){try{await window.storage.set('u:profile7',JSON.stringify({name:userName,house:userHouse}))}catch(e){}}
+async function loadUser(){try{const r=await window.storage.get('u:profile7');if(r?.value){const d=JSON.parse(r.value);userName=d.name||'';userHouse=d.house||'';return!!(userName&&userHouse)}}catch(e){}return false}
+async function compress(){if(hist.length<14)return;const old=hist.slice(0,hist.length-6),rec=hist.slice(hist.length-6);try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:100,messages:[{role:'user',content:`2-sentence dynamics summary:\n${old.map(m=>`${m.role==='user'?'Student':CChar.name}: ${m.content}`).join('\n')}`}]})});if(!r.ok)return;const d=await r.json();hist=[{role:'user',content:`[Prior: ${d.content.map(c=>c.text||'').join('')}]`},{role:'assistant',content:'[Continuing.]'},...rec]}catch(e){}}
+
+function updateTrust(){const col=TCOL[Math.max(0,Math.min(5,trustLvl))];document.documentElement.style.setProperty('--trust',col);const av=document.getElementById('chav');av.style.borderColor=col;av.style.boxShadow=trustLvl>=4?`0 0 ${trustLvl*4}px ${col}40`:'none';const bar=document.getElementById('trustBar');bar.innerHTML='';for(let i=0;i<5;i++){const p=document.createElement('div');p.className='trust-pip'+(i<trustLvl?' on':'');bar.appendChild(p)}}
+function parseTrust(t){const m=t.match(/\[T:(\d)\]/);if(m){const n=parseInt(m[1]);if(n>=0&&n<=5)trustLvl=n}return t.replace(/\[T:\d\]/g,'').trim()}
+
+function buildSys(char,ci){
+  const sel=CE[ci],allE=CE.slice(0,ci+1).flatMap(c=>c.e),fut=CE.slice(ci+1);
+  const pr=P[char.name]||P["Harry Potter"];
+  const phys=pr.ph.split('|').map(s=>s.trim()).join('; ');
+  const beatStr=usedBeats.length?`\nUsed (don't repeat): ${usedBeats.slice(-10).join(' | ')}`:'';
+  const drift=turnCount>0&&turnCount%6===0?`\nVOICE: ${pr.rm}`:'';
+  const comp=COMP[char.name];
+  const compStr=comp&&comp.who.length?`\nNEARBY: ${comp.who.join(', ')}. ${comp.rel} They may react. YOUR voice leads.`:'';
+  const tDesc={0:'SHUT DOWN.',1:'GUARDED.',2:'CAUTIOUS.',3:'NEUTRAL.',4:'TRUSTING — inner truth.',5:'BONDED — private fragments.'}[trustLvl]||'NEUTRAL';
+  return `You are ${char.name} from ${BK.title}.
+Scene: ${sel.l}. With ${userName||'a student'}, ${userHouse||'Gryffindor'}.
+WHO: ${pr.p}
+Speech: ${pr.s} | Emotional: ${pr.em} | Excited: ${pr.ex} | Uncomfortable: ${pr.un}
+Inner truth: ${pr.pr}
+PHYS: ${phys}${beatStr}${compStr}
+TRUST: ${trustLvl}/5 — ${tDesc}
+EVENTS (to Ch.${sel.n}):
+${allE.map(e=>'• '+e).join('\n')}
+${fut.length?`UNKNOWN: Ch.${fut.map(c=>c.n).join(',')}. Future → confusion.`:'Full book. All is known.'}
+LORE: Vague → uncertain in character.
+RULES:
+1. 40–80 words. 2–3 sentences.
+2. ONE action beat at START only. *beat* "Dialogue."
+3. End with hook.
+4. Never summarise plot. Reference obliquely.
+5. Emotion through beats.
+6. Use ${userName||'name'} occasionally.
+7. End with [T:N] (0-5).${drift}`}
+
+// ══ PARTICLES ══
+(()=>{const cv=document.getElementById('cvs'),ctx=cv.getContext('2d'),rz=()=>{cv.width=innerWidth;cv.height=innerHeight};rz();addEventListener('resize',rz);class Q{reset(i){this.x=Math.random()*cv.width;this.y=i?Math.random()*cv.height:cv.height+6;this.r=Math.random()*1.4+.3;this.sp=Math.random()*.22+.05;this.op=Math.random()*.28+.07;this.dr=(Math.random()-.5)*.13;this.tw=Math.random()*Math.PI*2}constructor(){this.reset(true)}upd(){this.y-=this.sp;this.x+=this.dr;this.tw+=.014;this.co=this.op*(.6+.4*Math.sin(this.tw));if(this.y<-6)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${this.co})`;ctx.fill()}}const pts=Array.from({length:50},()=>new Q());(function a(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.upd();p.draw()});requestAnimationFrame(a)})()})();
+
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById('scr-'+id).classList.add('on')}
+function applyHouse(){if(!userHouse)return;const h=HOUSES[userHouse];if(h){document.documentElement.style.setProperty('--house',h.col);document.documentElement.style.setProperty('--house2',h.col2)}}
+async function init(){if(await loadUser()){applyHouse();loadChapters();show('chapters')}else{show('name');document.getElementById('nameInp').focus()}}
+function submitName(){const v=document.getElementById('nameInp').value.trim();if(!v)return;userName=v;show('sorting');startSort()}
+function loadChapters(){const l=document.getElementById('chaplist');l.innerHTML='';CE.forEach((c,i)=>{const d=document.createElement('div');d.className='chaprow';d.onclick=()=>selChap(i);d.innerHTML=`<span class="chapnum">${c.n}</span><span class="chaptit">${c.t}</span><span class="chaparr">›</span>`;l.appendChild(d)})}
+
+const SSYS=`You are the Sorting Hat. Ancient, perceptive, theatrical. Ask ONE question per response. Probe values. Under 50 words. After 5 answers, announce house with [HOUSE:Name]. ONE action beat at start.`;
+async function startSort(){sortHist=[];sortTurn=0;document.getElementById('sortMsgs').innerHTML='';const inp=document.getElementById('sortInp'),btn=document.getElementById('sortBtn');inp.disabled=true;btn.disabled=true;
+  try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:130,system:SSYS,stream:true,messages:[{role:'user',content:`Student: ${userName}. Begin.`}]})});if(!r.ok)throw 0;const md=addSM('c','');const b=md.querySelector('#sbub');let f='',buf='';const rd=r.body.getReader(),dc=new TextDecoder();while(true){const{done,value}=await rd.read();if(done)break;buf+=dc.decode(value,{stream:true});const ls=buf.split('\n');buf=ls.pop();for(const l of ls){if(!l.startsWith('data: '))continue;try{const p=JSON.parse(l.slice(6).trim());if(p.type==='content_block_delta'&&p.delta?.type==='text_delta'){f+=p.delta.text;b.innerHTML=renderText(cleanH(f));scrollS()}}catch(e){}}}sortHist=[{role:'user',content:`Student: ${userName}. Begin.`},{role:'assistant',content:f}]}catch(e){document.getElementById('sortMsgs').innerHTML='<div style="text-align:center;color:var(--mut);font-style:italic;padding:16px">Hat could not begin…</div>'}finally{inp.disabled=false;btn.disabled=false;inp.focus()}}
+function cleanH(t){return t.replace(/\[HOUSE:\w+\]/g,'').trim()}
+async function sortSend(){if(streaming)return;const inp=document.getElementById('sortInp'),txt=inp.value.trim();if(!txt)return;inp.value='';inp.style.height='auto';addSM('u',txt,1);sortHist.push({role:'user',content:txt});sortTurn++;streaming=true;inp.disabled=true;document.getElementById('sortBtn').disabled=true;
+  try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:160,system:SSYS+`\nAnswer #${sortTurn}/5.${sortTurn>=5?' FINAL. Announce. [HOUSE:Name].':''}`,stream:true,messages:sortHist})});if(!r.ok)throw 0;const md=addSM('c','');const b=md.querySelector('#sbub');let f='',buf='';const rd=r.body.getReader(),dc=new TextDecoder();while(true){const{done,value}=await rd.read();if(done)break;buf+=dc.decode(value,{stream:true});const ls=buf.split('\n');buf=ls.pop();for(const l of ls){if(!l.startsWith('data: '))continue;try{const p=JSON.parse(l.slice(6).trim());if(p.type==='content_block_delta'&&p.delta?.type==='text_delta'){f+=p.delta.text;b.innerHTML=renderText(cleanH(f));scrollS()}}catch(e){}}}sortHist.push({role:'assistant',content:f});const hm=f.match(/\[HOUSE:(\w+)\]/i);if(hm){const raw=hm[1].toLowerCase();userHouse=raw.charAt(0).toUpperCase()+raw.slice(1);if(!HOUSES[userHouse])userHouse='Gryffindor';await saveUser();applyHouse();setTimeout(()=>{const h=HOUSES[userHouse];if(h){document.getElementById('revCrest').textContent=h.crest;document.getElementById('revHouse').textContent=userHouse.toUpperCase()+'!';document.getElementById('revSub').textContent=h.sub}show('reveal')},1400)}else if(sortTurn>=5){userHouse='Gryffindor';await saveUser();applyHouse();setTimeout(()=>{const h=HOUSES[userHouse];document.getElementById('revCrest').textContent=h.crest;document.getElementById('revHouse').textContent=userHouse.toUpperCase()+'!';document.getElementById('revSub').textContent=h.sub;show('reveal')},1400)}}catch(e){}finally{streaming=false;inp.disabled=false;document.getElementById('sortBtn').disabled=false;inp.focus()}}
+function scrollS(){document.getElementById('sortMsgs').scrollTop=document.getElementById('sortMsgs').scrollHeight}
+function addSM(r,t,s){const m=document.getElementById('sortMsgs'),d=document.createElement('div');d.className='msg '+(r==='u'?'u':'c');if(r==='u')d.innerHTML=`<div class="mav" style="background:rgba(107,33,168,.25);border-color:rgba(107,33,168,.45);color:#c084fc">You</div><div class="mbub">${renderText(t)}</div>`;else d.innerHTML=`<div class="mav" style="background:rgba(42,26,58,.3);border-color:#c9a84c;color:#c9a84c">🎩</div><div class="mbub" ${s?'':'id="sbub"'}>${s?renderText(t):''}</div>`;m.appendChild(d);scrollS();return d}
+function finishSort(){
+  if(!userHouse)userHouse='Gryffindor';
+  applyHouse();
+  loadChapters();
+  show('chapters');
+}
+
+function selChap(i){CChapIdx=i;const c=CE[i];document.getElementById('cs-btit').textContent=`Ch.${c.n}: ${c.t}`;const g=document.getElementById('cgrid');g.innerHTML='';CHARS.forEach(ch=>{const d=document.createElement('div');d.className='ccard';d.setAttribute('data-h',ch.h);d.onclick=()=>selChar(ch);const h=HS[ch.h];d.innerHTML=`<div class="cav" style="background:${h.bg};border-color:${h.bc};color:${h.col}">${ch.init}</div><div class="cname">${ch.name}</div><div class="crole">${ch.role}</div>`;g.appendChild(d)});show('chars')}
+
+async function selChar(c){CChar=c;hist=[];turnCount=0;usedBeats=[];trustLvl=TSTART[c.name]||3;const h=HS[c.h],av=document.getElementById('chav');av.textContent=c.init;av.style.background=h.bg;av.style.borderColor=h.bc;av.style.color=h.col;document.getElementById('cname2').textContent=c.name;const ch=CE[CChapIdx];document.getElementById('cbook').textContent=`Deathly Hallows · Ch.${ch.n} · ${ch.l}`;const m=document.getElementById('msgs');m.innerHTML='';show('chat');updateTrust();const has=await loadChat();if(has){m.innerHTML='<div class="resumed">— continuing —</div>';for(const x of hist){if(x.content.startsWith('[Prior:')||x.content.startsWith('[Continuing')||x.content==='[Scene opens]')continue;addMsg(x.role==='user'?'u':'c',x.content,1)}scrollBot();updateTrust();document.getElementById('inp').focus()}else{setLock(1);try{await genOpen(c,CChapIdx)}catch(e){m.innerHTML+='<div style="text-align:center;color:var(--mut);font-style:italic;font-size:11px;padding:10px">Scene failed…</div>'}finally{setLock(0);document.getElementById('inp').focus()}}}
+function goBack(t){hist=[];turnCount=0;usedBeats=[];show(t);if(t==='chapters')loadChapters()}
+
+async function genOpen(ch,ci){const sys=buildSys(ch,ci)+`\nOPENING: Mid-scene. NO greetings. One beat then dialogue. Oblique. Tension. 40–80 words. [T:N].`;const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:180,system:sys,stream:true,messages:[{role:'user',content:'[Scene opens]'}]})});if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'err')}const md=addMsg('c','');const b=md.querySelector('#sbub');let f='',buf='';const rd=r.body.getReader(),dc=new TextDecoder();while(true){const{done,value}=await rd.read();if(done)break;buf+=dc.decode(value,{stream:true});const ls=buf.split('\n');buf=ls.pop();for(const l of ls){if(!l.startsWith('data: '))continue;try{const p=JSON.parse(l.slice(6).trim());if(p.type==='content_block_delta'&&p.delta?.type==='text_delta'){f+=p.delta.text;b.innerHTML=renderText(parseTrust(f));scrollBot()}}catch(e){}}}const clean=parseTrust(f);b.innerHTML=renderText(clean);trackBeat(f);updateTrust();hist=[{role:'user',content:'[Scene opens]'},{role:'assistant',content:clean}];await saveChat()}
+
+function setLock(on){streaming=!!on;document.getElementById('sbtn').disabled=!!on;document.getElementById('inp').disabled=!!on}
+function scrollBot(){document.getElementById('msgs').scrollTop=document.getElementById('msgs').scrollHeight}
+function renderText(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*([^*]+)\*/g,'<em>$1</em>').replace(/\n/g,'<br>')}
+function trackBeat(t){const m=t.match(/\*([^*]+)\*/);if(m?.[1]){const b=m[1].trim().toLowerCase().slice(0,70);if(!usedBeats.includes(b)){usedBeats.push(b);if(usedBeats.length>18)usedBeats.shift()}}}
+function addMsg(role,text,s){const m=document.getElementById('msgs'),h=HS[CChar.h],d=document.createElement('div');d.className='msg '+(role==='u'?'u':'c');if(role==='u')d.innerHTML=`<div class="mav" style="background:rgba(107,33,168,.25);border-color:rgba(107,33,168,.4);color:#c084fc">You</div><div class="mbub">${renderText(text)}</div>`;else d.innerHTML=`<div class="mav" style="background:${h.bg};border-color:${h.bc};color:${h.col}">${CChar.init}</div><div class="mbub" ${s?'':'id="sbub"'}>${s?renderText(text):''}</div>`;m.appendChild(d);scrollBot();return d}
+function showTyp(){const m=document.getElementById('msgs'),h=HS[CChar.h],d=document.createElement('div');d.className='msg c';d.id='typ';d.innerHTML=`<div class="mav" style="background:${h.bg};border-color:${h.bc};color:${h.col}">${CChar.init}</div><div class="mbub"><div class="tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>`;m.appendChild(d);scrollBot()}
+async function sendMsg(){if(streaming)return;const inp=document.getElementById('inp'),txt=inp.value.trim();if(!txt)return;inp.value='';inp.style.height='auto';addMsg('u',txt,1);hist.push({role:'user',content:txt});turnCount++;await compress();setLock(1);showTyp();
+  try{const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,system:buildSys(CChar,CChapIdx),stream:true,messages:hist})});document.getElementById('typ')?.remove();if(!r.ok){const e=await r.json();throw new Error(e.error?.message||'err')}const md=addMsg('c','');const b=md.querySelector('#sbub');let f='',buf='';const rd=r.body.getReader(),dc=new TextDecoder();while(true){const{done,value}=await rd.read();if(done)break;buf+=dc.decode(value,{stream:true});const ls=buf.split('\n');buf=ls.pop();for(const l of ls){if(!l.startsWith('data: '))continue;try{const p=JSON.parse(l.slice(6).trim());if(p.type==='content_block_delta'&&p.delta?.type==='text_delta'){f+=p.delta.text;b.innerHTML=renderText(parseTrust(f));scrollBot()}}catch(e){}}}const clean=parseTrust(f);b.innerHTML=renderText(clean);trackBeat(f);updateTrust();hist.push({role:'assistant',content:clean});await saveChat()}catch(e){document.getElementById('typ')?.remove();document.getElementById('msgs').innerHTML+='<div style="text-align:center;color:var(--mut);font-style:italic;font-size:11px;padding:8px">Magic faltered…</div>';hist.pop()}finally{setLock(0);inp.focus()}}
+init();
+</script>
+</body>
+</html>
