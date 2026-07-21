@@ -14,7 +14,7 @@
 .shdr-info{flex:1}.shdr-lbl{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:1px}.shdr-tit{font-family:'Cinzel',serif;font-size:14px;color:var(--parch)}
 .divline{width:70px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:10px auto}
 .hdr{text-align:center;padding:32px 20px 16px}.title{font-family:'Cinzel',serif;font-size:clamp(22px,5vw,40px);font-weight:700;color:var(--parch);text-shadow:0 0 40px rgba(201,168,76,.18);margin-bottom:3px}.sub{font-size:14px;font-style:italic;color:var(--parchd)}
-.books{display:flex;gap:18px;padding:0 18px 36px;flex-wrap:wrap;justify-content:center;width:100%;max-width:780px}
+.books{display:flex;gap:20px;padding:0 20px 36px;flex-wrap:wrap;justify-content:center;width:100%;max-width:840px}
 .bk{flex:1;min-width:230px;max-width:330px;background:var(--bg2);border:1px solid rgba(201,168,76,.16);border-radius:11px;padding:26px 22px;cursor:pointer;transition:all .28s;position:relative;overflow:hidden;text-align:center}.bk::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .28s;border-radius:11px}.bk[data-b=ss]::before{background:radial-gradient(ellipse at 50% 0%,rgba(116,0,1,.18) 0%,transparent 60%)}.bk[data-b=cos]::before{background:radial-gradient(ellipse at 50% 0%,rgba(26,71,42,.16) 0%,transparent 60%)}.bk:hover::before{opacity:1}.bk:hover{transform:translateY(-3px);border-color:var(--gold)}
 .bcrest{font-size:40px;margin-bottom:12px;display:block}.byr{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:3px}.btit{font-family:'Cinzel',serif;font-size:17px;font-weight:600;color:var(--parch);margin-bottom:5px;line-height:1.3}.bdesc{font-size:12.5px;font-style:italic;color:var(--parchd);line-height:1.5;margin-bottom:14px}.bcnt{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--mut);text-transform:uppercase;margin-bottom:12px}.bentbtn{display:inline-block;padding:6px 20px;border:1px solid var(--goldd);border-radius:4px;color:var(--gold);font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;transition:all .2s}.bk:hover .bentbtn{background:rgba(201,168,76,.08);border-color:var(--gold)}
 .chapcon{width:100%;max-width:640px;padding:16px 18px 36px}.chaplist{display:flex;flex-direction:column;gap:3px}.chaprow{display:flex;align-items:center;gap:11px;background:var(--bg2);border:1px solid rgba(201,168,76,.08);border-radius:7px;padding:10px 13px;cursor:pointer;transition:all .2s}.chaprow:hover{border-color:rgba(201,168,76,.35);transform:translateX(3px)}.chapnum{font-family:'Cinzel',serif;font-size:10px;font-weight:600;color:var(--gold);min-width:24px;text-align:center;opacity:.6}.chaptit{font-family:'Cinzel',serif;font-size:12.5px;color:var(--parch);flex:1}.chaparr{font-size:10px;color:var(--goldd)}
@@ -100,12 +100,12 @@ let userName='',userHouse='',sortHist=[],sortTurn=0;
 
 const HS={gr:{bg:'rgba(116,0,1,.28)',bc:'#d3a625',col:'#d3a625'},sl:{bg:'rgba(26,71,42,.28)',bc:'#aaa',col:'#aaa'},ra:{bg:'rgba(14,26,64,.4)',bc:'#946b2d',col:'#946b2d'},sp:{bg:'rgba(42,26,58,.35)',bc:'#c9a84c',col:'#c9a84c'}};
 const HOUSES={Gryffindor:{crest:'🦁',col:'#d4a625',col2:'rgba(212,166,37,.15)',sub:'Where dwell the brave at heart'},Slytherin:{crest:'🐍',col:'#2a9d4e',col2:'rgba(42,157,78,.15)',sub:'Where ambition finds its home'},Ravenclaw:{crest:'🦅',col:'#5b8fd4',col2:'rgba(91,143,212,.15)',sub:'Where wit beyond measure is treasure'},Hufflepuff:{crest:'🦡',col:'#e8c44a',col2:'rgba(232,196,74,.15)',sub:'Where the loyal and just belong'}};
-const BOOKS={ss:{title:"Harry Potter & the Sorcerer's Stone",short:"Sorcerer's Stone"},cos:{title:"Harry Potter & the Chamber of Secrets",short:"Chamber of Secrets"},poa:{title:"Harry Potter & the Prisoner of Azkaban",short:"Prisoner of Azkaban"},gof:{title:"Harry Potter & the Goblet of Fire",short:"Goblet of Fire"}};
+const BOOKS={ss:{title:"Harry Potter & the Sorcerer's Stone",short:"Sorcerer's Stone"},cos:{title:"Harry Potter & the Chamber of Secrets",short:"Chamber of Secrets"}};
 
 // TRUST COLORS: 0=shutdown 1=guarded 2=cautious 3=neutral 4=trusting 5=bonded
 const TCOL=['#4455aa','#667799','#9a8f72','#c9a84c','#d4a625','#f0d07a'];
 const TLBL=['Shut Down','Guarded','Cautious','Neutral','Trusting','Bonded'];
-const TSTART={"Harry Potter":3,"Ron Weasley":3,"Hermione Granger":3,"Hagrid":3,"Albus Dumbledore":3,"Draco Malfoy":2,"Professor Snape":2,"Neville Longbottom":3,"Dobby":4,"Ginny Weasley":2,"Tom Riddle":2,"Moaning Myrtle":3,"Professor Lockhart":4,"Sirius Black":2,"Remus Lupin":3,"Cedric Diggory":3,"Mad-Eye Moody":2};
+const TSTART={"Harry Potter":3,"Ron Weasley":3,"Hermione Granger":3,"Hagrid":3,"Albus Dumbledore":3,"Draco Malfoy":2,"Professor Snape":2,"Neville Longbottom":3,"Dobby":4,"Ginny Weasley":2,"Tom Riddle":2,"Moaning Myrtle":3,"Professor Lockhart":4};
 
 // COMPANIONS
 const COMP={
@@ -121,12 +121,7 @@ const COMP={
 "Ginny Weasley":{who:["Ron"],rel:"Ron hovers protectively. Ginny finds it both comforting and suffocating — she wants to be seen as strong, not broken."},
 "Tom Riddle":{who:[],rel:""},
 "Moaning Myrtle":{who:[],rel:""},
-"Professor Lockhart":{who:[],rel:""},
-"Sirius Black":{who:["Lupin"],rel:"Lupin is the last of the old friends. They rebuilt trust after twelve years of believing the worst of each other. A bond deeper than explanation."},
-"Remus Lupin":{who:[],rel:""},
-"Cedric Diggory":{who:[],rel:""},
-"Mad-Eye Moody":{who:[],rel:""}
-};
+"Professor Lockhart":{who:[],rel:""}};
 
 // PROFILES (compact — phys as string pairs)
 const P={
@@ -287,8 +282,8 @@ const CE={ss:[
 ]};
 
 // FUTURE KNOWLEDGE
-const FKW={ss:["sirius black","time turner","prisoner of azkaban","horcrux","deathly hallows","peter pettigrew","wormtail","lupin","goblet of fire","triwizard","dementor","order of the phoenix","half-blood prince","elder wand","dobby dies"],cos:["time turner","prisoner of azkaban","horcrux","deathly hallows","peter pettigrew","wormtail","sirius innocent","lupin werewolf","goblet of fire","triwizard","umbridge","elder wand"],poa:["horcrux","deathly hallows","goblet of fire","triwizard","cedric dies","cedric diggory dies","umbridge","order of the phoenix","half-blood prince","elder wand","resurrection stone","department of mysteries","voldemort returns body","sirius dies"],gof:["horcrux","deathly hallows","umbridge","order of the phoenix","half-blood prince","elder wand","resurrection stone","department of mysteries","sirius dies","dumbledore dies","snape kills dumbledore","room of requirement","harry is a horcrux"]};
-const FPT={ss:[/defence.*(teacher|professor).*(evil|possessed)/i,/turban.*(hiding|secret)/i,/snape.*(protect|love|lily|actually)/i,/quirrell.*(voldemort|possessed)/i,/rat.*(person|animagus|peter)/i,/godfather/i,/diary.*(soul|riddle)/i,/chamber.*secret/i,/basilisk/i],cos:[/rat.*(person|animagus|peter)/i,/godfather.*(innocent|sirius)/i,/lupin.*(werewolf)/i,/snape.*(love|lily)/i,/diary.*(horcrux)/i,/dumbledore.*(die|dead)/i,/harry.*(horcrux)/i],poa:[/voldemort.*(return|body|restore)/i,/cedric.*(die|dead|kill)/i,/sirius.*(die|dead|kill)/i,/snape.*(love|lily|always)/i,/dumbledore.*(die|dead)/i,/harry.*(horcrux)/i,/moody.*(fake|impostor|crouch)/i],gof:[/sirius.*(die|dead|kill)/i,/snape.*(love|lily|always|kill.*dumbledore)/i,/dumbledore.*(die|dead)/i,/harry.*(horcrux|die|sacrifice)/i,/snape.*(good|protect|actually)/i,/draco.*(death eater|dark mark|mission)/i]};
+const FKW={ss:["sirius black","time turner","prisoner of azkaban","horcrux","deathly hallows","peter pettigrew","wormtail","lupin","goblet of fire","triwizard","dementor","order of the phoenix","half-blood prince","elder wand","dobby dies"],cos:["time turner","prisoner of azkaban","horcrux","deathly hallows","peter pettigrew","wormtail","sirius innocent","lupin werewolf","goblet of fire","triwizard","umbridge","elder wand"]};
+const FPT={ss:[/defence.*(teacher|professor).*(evil|possessed)/i,/turban.*(hiding|secret)/i,/snape.*(protect|love|lily|actually)/i,/quirrell.*(voldemort|possessed)/i,/rat.*(person|animagus|peter)/i,/godfather/i,/diary.*(soul|riddle)/i,/chamber.*secret/i,/basilisk/i],cos:[/rat.*(person|animagus|peter)/i,/godfather.*(innocent|sirius)/i,/lupin.*(werewolf)/i,/snape.*(love|lily)/i,/diary.*(horcrux)/i,/dumbledore.*(die|dead)/i,/harry.*(horcrux)/i]};
 function sanitize(t,b){const l=t.toLowerCase();for(const k of(FKW[b]||[]))if(l.includes(k))return t+'\n[NOTE: Future knowledge. React with in-character confusion. Do NOT accept.]';for(const p of(FPT[b]||[]))if(p.test(t))return t+'\n[NOTE: Future hint. Genuine disbelief. Stay in timeline.]';return t}
 
 // CHARACTERS
