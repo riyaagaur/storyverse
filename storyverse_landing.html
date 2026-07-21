@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storyverse — Character Conversations</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#04040f;--bg2:#0d0d26;--gold:#c9a84c;--goldd:#5a451a;--parch:#f0e6c8;--parchd:#9a8f72;--mut:#5a5038}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--parch);font-family:'EB Garamond',Georgia,serif;min-height:100vh;overflow-x:hidden;position:relative}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:0}
+.wrap{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:60px 24px 80px;text-align:center}
+.logo{font-size:52px;margin-bottom:14px;display:block;filter:drop-shadow(0 0 30px rgba(201,168,76,.25))}
+h1{font-family:'Cinzel',serif;font-size:clamp(28px,6vw,52px);font-weight:700;color:var(--parch);text-shadow:0 0 50px rgba(201,168,76,.2);margin-bottom:6px}
+.rule{width:100px;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:14px auto}
+.sub{font-size:17px;font-style:italic;color:var(--parchd);max-width:520px;margin:0 auto 10px;line-height:1.6}
+.stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin:22px 0 40px}
+.stat{background:var(--bg2);border:1px solid rgba(201,168,76,.15);border-radius:10px;padding:14px 20px;text-align:center;min-width:110px}
+.stat-n{font-family:'Cinzel',serif;font-size:26px;font-weight:700;color:var(--gold);margin-bottom:2px}
+.stat-l{font-size:12px;font-style:italic;color:var(--parchd)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:40px}
+.card{background:var(--bg2);border:1px solid rgba(201,168,76,.14);border-radius:12px;padding:28px 20px;text-align:center;transition:all .3s;position:relative;overflow:hidden;text-decoration:none;color:inherit;display:block}
+.card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s;border-radius:12px}
+.card:nth-child(1)::before{background:radial-gradient(ellipse at 50% 0%,rgba(116,0,1,.2) 0%,transparent 60%)}
+.card:nth-child(2)::before{background:radial-gradient(ellipse at 50% 0%,rgba(60,60,120,.2) 0%,transparent 60%)}
+.card:nth-child(3)::before{background:radial-gradient(ellipse at 50% 0%,rgba(100,30,30,.2) 0%,transparent 60%)}
+.card:nth-child(4)::before{background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.15) 0%,transparent 60%)}
+.card:hover::before{opacity:1}
+.card:hover{transform:translateY(-5px);border-color:var(--gold);box-shadow:0 16px 44px rgba(0,0,0,.5),0 0 20px rgba(201,168,76,.08)}
+.card-crest{font-size:40px;margin-bottom:12px;display:block}
+.card-yr{font-family:'Cinzel',serif;font-size:8px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:4px}
+.card-title{font-family:'Cinzel',serif;font-size:16px;font-weight:600;color:var(--parch);margin-bottom:6px;line-height:1.3}
+.card-desc{font-size:13px;font-style:italic;color:var(--parchd);line-height:1.5;margin-bottom:12px}
+.card-meta{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:var(--mut);text-transform:uppercase;margin-bottom:14px}
+.card-btn{display:inline-block;padding:7px 22px;border:1px solid var(--goldd);border-radius:4px;color:var(--gold);font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;text-transform:uppercase;transition:all .2s}
+.card:hover .card-btn{background:rgba(201,168,76,.1);border-color:var(--gold)}
+.features{text-align:left;max-width:700px;margin:0 auto 40px}
+.feat-title{font-family:'Cinzel',serif;font-size:11px;letter-spacing:5px;color:var(--gold);text-transform:uppercase;margin-bottom:16px;text-align:center}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:600px){.feat-grid{grid-template-columns:1fr}}
+.feat{background:var(--bg2);border:1px solid rgba(201,168,76,.1);border-radius:10px;padding:18px 16px}
+.feat h3{font-family:'Cinzel',serif;font-size:12px;color:var(--gold);margin-bottom:6px;font-weight:600}
+.feat p{font-size:13px;color:var(--parchd);line-height:1.55}
+.footer{text-align:center;padding-top:30px;border-top:1px solid rgba(201,168,76,.08)}
+.footer p{font-size:13px;color:var(--mut);line-height:1.7}
+.footer a{color:var(--gold);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+<canvas id="cvs"></canvas>
+<div class="wrap">
+  <span class="logo">⚡</span>
+  <h1>Storyverse</h1>
+  <div class="rule"></div>
+  <p class="sub">Talk to Harry Potter characters who only know what they'd know at your chapter — and who actually care how you treat them.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">7</div><div class="stat-l">Books</div></div>
+    <div class="stat"><div class="stat-n">199</div><div class="stat-l">Chapters</div></div>
+    <div class="stat"><div class="stat-n">40+</div><div class="stat-l">Characters</div></div>
+    <div class="stat"><div class="stat-n">6</div><div class="stat-l">Trust Levels</div></div>
+  </div>
+
+  <div class="grid">
+    <a class="card" href="books/sorcerers-stone.html">
+      <span class="card-crest">🦁</span>
+      <div class="card-yr">Years One & Two</div>
+      <div class="card-title">Sorcerer's Stone &<br>Chamber of Secrets</div>
+      <p class="card-desc">The boy who lived discovers magic — and a darkness not vanquished.</p>
+      <div class="card-meta">35 Chapters · 13 Characters</div>
+      <div class="card-btn">Enter</div>
+    </a>
+    <a class="card" href="books/prisoner-of-azkaban.html">
+      <span class="card-crest">🐺</span>
+      <div class="card-yr">Years Three & Four</div>
+      <div class="card-title">Prisoner of Azkaban &<br>Goblet of Fire</div>
+      <p class="card-desc">The truth about Sirius Black. The Triwizard Tournament. The Dark Lord rises.</p>
+      <div class="card-meta">59 Chapters · 14 Characters</div>
+      <div class="card-btn">Enter</div>
+    </a>
+    <a class="card" href="books/order-of-the-phoenix.html">
+      <span class="card-crest">🔮</span>
+      <div class="card-yr">Years Five & Six</div>
+      <div class="card-title">Order of the Phoenix &<br>Half-Blood Prince</div>
+      <p class="card-desc">The Ministry denies. Dumbledore's Army rises. A death changes everything.</p>
+      <div class="card-meta">68 Chapters · 15 Characters</div>
+      <div class="card-btn">Enter</div>
+    </a>
+    <a class="card" href="books/deathly-hallows.html">
+      <span class="card-crest">⚡</span>
+      <div class="card-yr">Year Seven</div>
+      <div class="card-title">The Deathly Hallows</div>
+      <p class="card-desc">Three Hallows. Seven Horcruxes. One last stand. It all ends here.</p>
+      <div class="card-meta">36 Chapters · 12 Characters</div>
+      <div class="card-btn">Enter</div>
+    </a>
+  </div>
+
+  <div class="features">
+    <div class="feat-title">What Makes This Different</div>
+    <div class="feat-grid">
+      <div class="feat"><h3>🎩 Sorting Ceremony</h3><p>A conversational sorting by the Hat itself. Your house changes how every character treats you.</p></div>
+      <div class="feat"><h3>📖 Chapter Boundaries</h3><p>Characters only know what's happened up to your selected chapter. No spoilers. No foreshadowing.</p></div>
+      <div class="feat"><h3>🤝 Trust Engine</h3><p>Be kind and characters open up. Push too hard and they shut down. A 6-level emotional state that persists.</p></div>
+      <div class="feat"><h3>🎭 Multi-Character Scenes</h3><p>Talk to Ron and Harry and Hermione are there — disagreeing, reacting, making the scene feel alive.</p></div>
+      <div class="feat"><h3>🛡️ Spoiler Resistance</h3><p>Try to tell a character about the future. They'll be confused, skeptical — never accepting.</p></div>
+      <div class="feat"><h3>🔮 Private Context</h3><p>Snape's love for Lily shapes every response. He will never tell you. That's the point.</p></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>Built by Riya · <a href="https://github.com/yourusername/storyverse" target="_blank">GitHub</a></p>
+    <p style="margin-top:8px;font-size:11px">Harry Potter is the intellectual property of J.K. Rowling and Warner Bros. This is a non-commercial fan project.</p>
+  </div>
+</div>
+
+<script>
+(()=>{const cv=document.getElementById('cvs'),ctx=cv.getContext('2d'),rz=()=>{cv.width=innerWidth;cv.height=innerHeight};rz();addEventListener('resize',rz);class P{reset(i){this.x=Math.random()*cv.width;this.y=i?Math.random()*cv.height:cv.height+6;this.r=Math.random()*1.4+.3;this.sp=Math.random()*.2+.04;this.op=Math.random()*.25+.06;this.dr=(Math.random()-.5)*.12;this.tw=Math.random()*Math.PI*2}constructor(){this.reset(true)}upd(){this.y-=this.sp;this.x+=this.dr;this.tw+=.012;this.co=this.op*(.6+.4*Math.sin(this.tw));if(this.y<-6)this.reset()}draw(){ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=`rgba(201,168,76,${this.co})`;ctx.fill()}}const pts=Array.from({length:45},()=>new P());(function a(){ctx.clearRect(0,0,cv.width,cv.height);pts.forEach(p=>{p.upd();p.draw()});requestAnimationFrame(a)})()})();
+</script>
+</body>
+</html>
